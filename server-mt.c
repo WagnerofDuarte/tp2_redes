@@ -15,11 +15,11 @@ aviator_msg msg;
 
 void recieveMsgAsServer() {
 	recv(0, &msg, sizeof(msg), 0);
-	if (strcmp(msg.type, "bet")) {
+	if (strcmp(msg.type, "bet") == 0) {
 
-	} else if (strcmp(msg.type, "cashout")) {
+	} else if (strcmp(msg.type, "cashout") == 0) {
 
-	} else if (strcmp(msg.type, "bye")) {
+	} else if (strcmp(msg.type, "bye") == 0) {
 
 	}
 }

@@ -8,27 +8,27 @@ void recieveMsgAsClient() {
 	recv(s, &msg, sizeof(msg), 0);
 	if (strcmp(msg.type, "start") == 0) {
 		printf("Recebido: type=%s | value=%.2f | profit=%.2f\n", msg.type, msg.value, msg.player_profit);
-	} else if (strcmp(msg.type, "closed")) {
+	} else if (strcmp(msg.type, "closed") == 0) {
 
-	} else if (strcmp(msg.type, "multiplier")) {
+	} else if (strcmp(msg.type, "multiplier") == 0) {
 
-	} else if (strcmp(msg.type, "explode")) {
+	} else if (strcmp(msg.type, "explode") == 0) {
 
-	} else if (strcmp(msg.type, "payout")) {
+	} else if (strcmp(msg.type, "payout") == 0) {
 
-	} else if (strcmp(msg.type, "profit")) {
+	} else if (strcmp(msg.type, "profit") == 0) {
 
-	} else if (strcmp(msg.type, "bye")) {
+	} else if (strcmp(msg.type, "bye") == 0) {
 
 	}
 }
 
 void sendMsgAsClient() {
-	if (strcmp(msg.type, "bet")) {
+	if (strcmp(msg.type, "bet") == 0) {
 
-	} else if (strcmp(msg.type, "cashout")) {
+	} else if (strcmp(msg.type, "cashout") == 0) {
 
-	} else if (strcmp(msg.type, "bye")) {
+	} else if (strcmp(msg.type, "bye") == 0) {
 
 	}
 	send(s, &msg, sizeof(msg), 0);
