@@ -6,7 +6,7 @@ const char *nickname;
 
 void recieveMsgAsClient() {
 	recv(s, &msg, sizeof(msg), 0);
-	if (strcmp(msg.type, "start")) {
+	if (strcmp(msg.type, "start") == 0) {
 		printf("Recebido: type=%s | value=%.2f | profit=%.2f\n", msg.type, msg.value, msg.player_profit);
 	} else if (strcmp(msg.type, "closed")) {
 
