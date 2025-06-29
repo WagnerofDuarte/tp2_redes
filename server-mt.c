@@ -11,6 +11,8 @@
 
 #define BUFSZ 1024
 
+aviator_msg msg;
+
 void usage(int argc, char **argv) {
     printf("usage: %s <v4|v6> <server port>\n", argv[0]);
     printf("example: %s v4 51511\n", argv[0]);
@@ -30,16 +32,23 @@ void * client_thread(void *data) {
     addrtostr(caddr, caddrstr, BUFSZ);
     printf("[log] connection from %s\n", caddrstr);
 
-    char buf[BUFSZ];
-    memset(buf, 0, BUFSZ);
-    size_t count = recv(cdata->csock, buf, BUFSZ - 1, 0);
-    printf("[msg] %s, %d bytes: %s\n", caddrstr, (int)count, buf);
-
-    sprintf(buf, "remote endpoint: %.1000s\n", caddrstr);
-    count = send(cdata->csock, buf, strlen(buf) + 1, 0);
-    if (count != strlen(buf) + 1) {
-        logexit("send");
+    size_t count = recv(cdata->csock, &msg, sizeof(msg), 0);
+    if (count <= 0) {
+        logexit("recv");
     }
+    printf("[msg] player_id=%d, type=%s, value=%.2f\n", msg.player_id, msg.type, msg.value);
+
+    // Exemplo de resposta do servidor
+    aviator_msg resposta = {
+        .player_id = msg.player_id,
+        .value = 0,
+        .player_profit = 0,
+        .house_profit = 0,
+    };
+    strncpy(resposta.type, "profit", STR_LEN);
+
+    send(cdata->csock, &resposta, sizeof(resposta), 0);
+
     close(cdata->csock);
 
     pthread_exit(EXIT_SUCCESS);

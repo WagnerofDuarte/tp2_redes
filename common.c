@@ -93,3 +93,16 @@ int server_sockaddr_init(const char *proto, const char *portstr,
         return -1;
     }
 }
+
+void send_msg(int sock, aviator_msg *msg) {
+    if (send(sock, msg, sizeof(*msg), 0) != sizeof(*msg)) {
+        logexit("send");
+    }
+}
+
+void recv_msg(int sock, aviator_msg *msg) {
+    size_t count = recv(sock, msg, sizeof(*msg), 0);
+    if (count != sizeof(*msg)) {
+        logexit("recv");
+    }
+}

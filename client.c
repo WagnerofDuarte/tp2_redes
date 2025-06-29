@@ -4,6 +4,18 @@ aviator_msg msg;
 int s;
 const char *nickname;
 
+void send_bet(float valor) {
+    aviator_msg m = {
+        .player_id = 1,
+        .value = valor,
+        .player_profit = 0,
+        .house_profit = 0,
+    };
+    strncpy(m.type, "bet", STR_LEN);
+    send_msg(s, &m);
+}
+
+
 void usage(int argc, char **argv) { // Modificar pra cobrar o apelido do jogador
 	printf("usage: %s <server IP> <server port> -nick <nickname>\n", argv[0]);
 	printf("example: %s 127.0.0.1 51511 -nick Flip\n", argv[0]);
@@ -41,8 +53,8 @@ int main(int argc, char **argv) {
 		logexit("connect");
 	}
 	printf("Conectado ao servidor.\n");
-	int j;
-	scanf("%d", &j);
+	recv_msg(s, &msg);
+    printf("Recebido: type=%s | value=%.2f | profit=%.2f\n", msg.type, msg.value, msg.player_profit);
 	close(s);
 	exit(EXIT_SUCCESS);
 }
