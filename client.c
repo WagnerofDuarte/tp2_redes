@@ -41,6 +41,8 @@ int main(int argc, char **argv) {
 		logexit("connect");
 	}
 	printf("Conectado ao servidor.\n");
+	int j;
+	scanf("%d", &j);
 	close(s);
 	exit(EXIT_SUCCESS);
 }
