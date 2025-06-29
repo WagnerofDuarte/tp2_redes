@@ -4,16 +4,35 @@ aviator_msg msg;
 int s;
 const char *nickname;
 
-void send_bet(float valor) {
-    aviator_msg m = {
-        .player_id = 1,
-        .value = valor,
-        .player_profit = 0,
-        .house_profit = 0,
-    };
-    strncpy(m.type, "bet", STR_LEN);
-    send_msg(s, &m);
+void recieveMsgAsClient() {
+	recv(s, &msg, sizeof(msg), 0);
+	if (strcmp(msg.type, "start")) {
+		printf("Recebido: type=%s | value=%.2f | profit=%.2f\n", msg.type, msg.value, msg.player_profit);
+	} else if (strcmp(msg.type, "closed")) {
+
+	} else if (strcmp(msg.type, "multiplier")) {
+
+	} else if (strcmp(msg.type, "explode")) {
+
+	} else if (strcmp(msg.type, "payout")) {
+
+	} else if (strcmp(msg.type, "profit")) {
+
+	} else if (strcmp(msg.type, "bye")) {
+
+	}
 }
+
+void sendMsgAsClient() {
+	if (strcmp(msg.type, "bet")) {
+
+	} else if (strcmp(msg.type, "cashout")) {
+
+	} else if (strcmp(msg.type, "bye")) {
+
+	}
+	send(s, &msg, sizeof(msg), 0);
+} 
 
 
 void usage(int argc, char **argv) { // Modificar pra cobrar o apelido do jogador
@@ -53,8 +72,9 @@ int main(int argc, char **argv) {
 		logexit("connect");
 	}
 	printf("Conectado ao servidor.\n");
-	recv_msg(s, &msg);
-    printf("Recebido: type=%s | value=%.2f | profit=%.2f\n", msg.type, msg.value, msg.player_profit);
+
+	recieveMsgAsClient();
+
 	close(s);
 	exit(EXIT_SUCCESS);
 }

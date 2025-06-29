@@ -13,6 +13,36 @@
 
 aviator_msg msg;
 
+void recieveMsgAsServer() {
+	recv(0, &msg, sizeof(msg), 0);
+	if (strcmp(msg.type, "bet")) {
+
+	} else if (strcmp(msg.type, "cashout")) {
+
+	} else if (strcmp(msg.type, "bye")) {
+
+	}
+}
+
+void sendMsgAsServer(int csock, size_t resposta) {
+	if (strcmp(msg.type, "start")) {
+        send(csock, &msg, sizeof(msg), 0);
+	} else if (strcmp(msg.type, "closed")) {
+
+	} else if (strcmp(msg.type, "multiplier")) {
+
+	} else if (strcmp(msg.type, "explode")) {
+
+	} else if (strcmp(msg.type, "payout")) {
+
+	} else if (strcmp(msg.type, "profit")) {
+
+	} else if (strcmp(msg.type, "bye")) {
+
+	}
+    send(csock, &msg, sizeof(msg), 0);
+}
+
 void usage(int argc, char **argv) {
     printf("usage: %s <v4|v6> <server port>\n", argv[0]);
     printf("example: %s v4 51511\n", argv[0]);
@@ -32,22 +62,17 @@ void * client_thread(void *data) {
     addrtostr(caddr, caddrstr, BUFSZ);
     printf("[log] connection from %s\n", caddrstr);
 
-    // size_t count = recv(cdata->csock, &msg, sizeof(msg), 0);
-    // if (count <= 0) {
-    //     logexit("recv");
-    // }
-    // printf("[msg] player_id=%d, type=%s, value=%.2f\n", msg.player_id, msg.type, msg.value);
-
     // Exemplo de resposta do servidor
     aviator_msg resposta = {
         .player_id = msg.player_id,
-        .value = 0,
-        .player_profit = 0,
-        .house_profit = 0,
+        .value = 2,
+        .player_profit = 3,
+        .house_profit = 1,
     };
-    strncpy(resposta.type, "profit", STR_LEN);
+    strncpy(resposta.type, "start", STR_LEN);
+    sendMsgAsServer(cdata->csock, &resposta);
 
-    send(cdata->csock, &resposta, sizeof(resposta), 0);
+    // send(cdata->csock, &resposta, sizeof(resposta), 0);
 
     close(cdata->csock);
 
