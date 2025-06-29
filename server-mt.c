@@ -24,9 +24,9 @@ void recieveMsgAsServer() {
 	}
 }
 
-void sendMsgAsServer(int csock, size_t resposta) {
+void sendMsgAsServer(int csock, size_t *resposta, int size) {
 	if (strcmp(msg.type, "start")) {
-        send(csock, &msg, sizeof(msg), 0);
+        send(csock, &resposta, size, 0);
 	} else if (strcmp(msg.type, "closed")) {
 
 	} else if (strcmp(msg.type, "multiplier")) {
@@ -40,7 +40,7 @@ void sendMsgAsServer(int csock, size_t resposta) {
 	} else if (strcmp(msg.type, "bye")) {
 
 	}
-    send(csock, &msg, sizeof(msg), 0);
+    //send(csock, &msg, sizeof(msg), 0);
 }
 
 void usage(int argc, char **argv) {
@@ -70,7 +70,7 @@ void * client_thread(void *data) {
         .house_profit = 1,
     };
     strncpy(resposta.type, "start", STR_LEN);
-    sendMsgAsServer(cdata->csock, &resposta);
+    sendMsgAsServer(cdata->csock, &resposta, sizeof(resposta));
 
     // send(cdata->csock, &resposta, sizeof(resposta), 0);
 
