@@ -16,6 +16,10 @@ int firstConnection = 1;
 struct client_data *clientes[MAX_CLIENTES];
 int num_clientes = 0;
 pthread_mutex_t clientes_mutex = PTHREAD_MUTEX_INITIALIZER;
+struct client_data {
+    int csock;
+    struct sockaddr_storage storage;
+};
 
 void enviar_start_para_todos(int segundos) {
     pthread_mutex_lock(&clientes_mutex);
@@ -76,11 +80,6 @@ void usage(int argc, char **argv) {
     printf("example: %s v4 51511\n", argv[0]);
     exit(EXIT_FAILURE);
 }
-
-struct client_data {
-    int csock;
-    struct sockaddr_storage storage;
-};
 
 void * client_thread(void *data) {
     struct client_data *cdata = (struct client_data *)data;
