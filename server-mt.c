@@ -9,6 +9,53 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
+#define MAX_CLIENTES 10
+
+int firstConnection = 1;
+
+struct client_data *clientes[MAX_CLIENTES];
+int num_clientes = 0;
+pthread_mutex_t clientes_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void enviar_start_para_todos(int segundos) {
+    pthread_mutex_lock(&clientes_mutex);
+
+    for (int i = 0; i < num_clientes; i++) {
+        if (clientes[i] == NULL){
+            continue;
+        }
+        aviator_msg msg;
+        msg.player_id = clientes[i]->csock; // ou outro id único se preferir
+        msg.value = (float)segundos;
+        strncpy(msg.type, "start", STR_LEN);
+        msg.player_profit = 0.0;
+        msg.house_profit = 0.0;
+
+        if (send(clientes[i]->csock, &msg, sizeof(msg), 0) != sizeof(msg)) {
+            perror("Erro ao enviar start");
+        } else {
+            printf("[log] Enviado START para cliente %d\n", i);
+        }
+    }
+
+    pthread_mutex_unlock(&clientes_mutex);
+}
+
+void iniciar_contagem_regressiva(int segundos) {
+    for (int i = segundos; i > 0; i--) {
+        printf("Contagem regressiva: %d segundos restantes...\n", i);
+        sleep(1);
+    }
+}
+
+void rodadaLoop(){
+    while(1){
+        enviar_start_para_todos(10); // Envia mensagem de início para todos os clientes
+        iniciar_contagem_regressiva(10); // Inicia a contagem regressiva de 5 segundos
+    }
+}
+
+
 #define BUFSZ 1024
 
 aviator_msg msg;
@@ -112,6 +159,7 @@ int main(int argc, char **argv) {
 
         pthread_t tid;
         pthread_create(&tid, NULL, client_thread, cdata);
+        printf("teste");
     }
     exit(EXIT_SUCCESS);
 }
