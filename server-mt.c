@@ -24,25 +24,6 @@ void recieveMsgAsServer() {
 	}
 }
 
-void sendMsgAsServer(int csock, size_t *resposta, int size) {
-	if (strcmp(msg.type, "start")) {
-        send(csock, &resposta, size, 0);
-	} else if (strcmp(msg.type, "closed")) {
-
-	} else if (strcmp(msg.type, "multiplier")) {
-
-	} else if (strcmp(msg.type, "explode")) {
-
-	} else if (strcmp(msg.type, "payout")) {
-
-	} else if (strcmp(msg.type, "profit")) {
-
-	} else if (strcmp(msg.type, "bye")) {
-
-	}
-    //send(csock, &msg, sizeof(msg), 0);
-}
-
 void usage(int argc, char **argv) {
     printf("usage: %s <v4|v6> <server port>\n", argv[0]);
     printf("example: %s v4 51511\n", argv[0]);
@@ -70,9 +51,8 @@ void * client_thread(void *data) {
         .house_profit = 1,
     };
     strncpy(resposta.type, "start", STR_LEN);
-    sendMsgAsServer(cdata->csock, &resposta, sizeof(resposta));
 
-    // send(cdata->csock, &resposta, sizeof(resposta), 0);
+    send(cdata->csock, &resposta, sizeof(resposta), 0);
 
     close(cdata->csock);
 
