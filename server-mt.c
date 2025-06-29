@@ -32,11 +32,11 @@ void * client_thread(void *data) {
     addrtostr(caddr, caddrstr, BUFSZ);
     printf("[log] connection from %s\n", caddrstr);
 
-    size_t count = recv(cdata->csock, &msg, sizeof(msg), 0);
-    if (count <= 0) {
-        logexit("recv");
-    }
-    printf("[msg] player_id=%d, type=%s, value=%.2f\n", msg.player_id, msg.type, msg.value);
+    // size_t count = recv(cdata->csock, &msg, sizeof(msg), 0);
+    // if (count <= 0) {
+    //     logexit("recv");
+    // }
+    // printf("[msg] player_id=%d, type=%s, value=%.2f\n", msg.player_id, msg.type, msg.value);
 
     // Exemplo de resposta do servidor
     aviator_msg resposta = {
