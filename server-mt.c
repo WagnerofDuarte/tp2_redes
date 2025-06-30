@@ -68,7 +68,7 @@ void log_server_event(const char *event_type, int player_id, float multiplier, f
     }
     else if (strcmp(event_type, "closed") == 0)
     {
-        printf(" | N=%.0f", " | V=%.2f", (double)N, V);
+        printf(" | N=%.0f | V=%.2f", (float)N, V);
     }
     else if (strcmp(event_type, "multiplier") == 0)
     {
@@ -80,7 +80,7 @@ void log_server_event(const char *event_type, int player_id, float multiplier, f
     }
     else if (strcmp(event_type, "bet") == 0)
     {
-        printf(" | bet=%.2f", " | N=%.0f", " | V=%.2f", bet,(double) N, V);
+        printf(" | bet=%.2f | N=%.0f | V=%.2f", bet, (float)N, V);
     }
     else if (strcmp(event_type, "cashout") == 0)
     {
@@ -92,7 +92,7 @@ void log_server_event(const char *event_type, int player_id, float multiplier, f
     }
     else if (strcmp(event_type, "profit") == 0)
     {
-        printf("player_profit=%.2f", player_profit);
+        printf(" | player_profit=%.2f", player_profit);
     }
     printf("\n");
 }
