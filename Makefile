@@ -1,7 +1,11 @@
 all:
+	mkdir -p bin
 	gcc -Wall -c common.c
-	gcc -Wall client.c common.o -o client
-	gcc -Wall server-mt.c common.o -lpthread -lm -o server-mt
+	gcc -Wall -c client.c
+	gcc -Wall -c server-mt.c
+	gcc -Wall client.o common.o -o bin/client
+	gcc -Wall server-mt.o common.o -o bin/server-mt
 
 clean:
-	rm -f common.o client server-mt
+	rm -f *.o
+	rm -rf bin
